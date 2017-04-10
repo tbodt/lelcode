@@ -1,8 +1,6 @@
 // Should we typedef here?
-struct token
-{
-	enum token_type
-	{
+struct token {
+	enum token_type {
 		tt_yarn,
 		tt_numbr,
 		tt_win,
@@ -10,8 +8,7 @@ struct token
 	const char *text;
 };
 
-struct tokenizer
-{
+struct tokenizer {
 	const char *input;
 	int index;
 };
