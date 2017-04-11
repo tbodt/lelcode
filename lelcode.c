@@ -3,13 +3,12 @@
 
 int main(int argc, const char *argv[]) {
 	if(argc < 2) {
-		fprintf(stderr, "No test input specified.");
+		fprintf(stderr, "No test input specified.\n");
 		return 1;
 	}
 	struct tokenizer tokenizer = init_tokenizer(argv[1]);
 
 	struct token token = {};
-	while(next_token(tokenizer, &token)) {
-		printf("%s\n", token.text);
+	while(next_token(&tokenizer, &token)) {
 	}
 }

@@ -14,4 +14,4 @@ struct tokenizer {
 };
 
 struct tokenizer init_tokenizer(const char *input);
-bool next_token(struct tokenizer tokenizer, struct token *token_out);
+bool next_token(struct tokenizer *tokenizer, struct token *token_out);

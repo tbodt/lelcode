@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "tokenizer.h"
 
 struct tokenizer init_tokenizer(const char *input) {
@@ -11,29 +12,35 @@ struct tokenizer init_tokenizer(const char *input) {
 	return tokenizer;
 }
 
-bool next_token(struct tokenizer tokenizer, struct token *token_out) {
-	int token_start = 0;
+bool next_token(struct tokenizer *tokenizer, struct token *token_out) {
+	int token_start = tokenizer->index;
 
-	int len = strlen(tokenizer.input);
-	if (len <= 0) {
+	int len = strlen(tokenizer->input);
+	if (tokenizer->index >= len) {
 		return false;
 	}
 
 	bool separator;
+	bool first = true;
 	do {
-		printf("%d / %d", tokenizer.index, len);
-		char c = tokenizer.input[tokenizer.index];
+		char c = tokenizer->input[tokenizer->index];
 
 		bool space = c == ' ';
-		separator = space || c == '(' || c == ')' || c == '\n' || c == '[' || c == ']' || c == '{' || c == '}';
+		separator = space || (c < 'a' || c > 'z') && (c < 'A' || c > 'Z');
 
-		if (space && tokenizer.index + 1 >= len && tokenizer.input[tokenizer.index + 1] == ' ') {
+		if (space && tokenizer->index + 1 < len && tokenizer->input[tokenizer->index + 1] == ' ') {
 			token_start++;
+		} else if (!separator || space || first) {
+			tokenizer->index++;
 		}
-		tokenizer.index++;
-	} while(!separator && tokenizer.index < len);
 
-	printf("%i..%i", token_start, tokenizer.index);
+		first = false;
+	} while(tokenizer->index < len && !separator);
 
-	return true;
+	printf("%i..%i ", token_start, tokenizer->index);
+	char* str = strndup(tokenizer->input + token_start, tokenizer->index - token_start);
+	printf("%s\n", str);
+
+	free(str);
+	return tokenizer->index < len;
 }
