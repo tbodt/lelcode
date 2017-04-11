@@ -12,6 +12,8 @@ struct token {
 struct tokenizer {
 	const char *input;
 	int index;
+	int len;
+	bool quote;
 };
 
 struct tokenizer init_tokenizer(const char *input);
