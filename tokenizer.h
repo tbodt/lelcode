@@ -1,3 +1,4 @@
+#include <stdbool.h>
 // Should we typedef here?
 struct token {
 	enum token_type {
